@@ -13,10 +13,6 @@ export class GameTree {
 		return this._root;
 	}
 
-	set root(value) {
-		this._root = value;
-	}
-
 	get crt() {
 		return this._crt;
 	}
@@ -64,8 +60,8 @@ export class GameTree {
 		const prev = node.prev ?? this._root;
 		const index = prev.lines.findIndex((e) => e === node);
 
-		[prev.lines[index], prev.lines[Math.max(index - 1, 1)]] = [
-			prev.lines[Math.max(index - 1, 1)],
+		[prev.lines[index], prev.lines[Math.max(index - 1, 0)]] = [
+			prev.lines[Math.max(index - 1, 0)],
 			prev.lines[index],
 		];
 	}
