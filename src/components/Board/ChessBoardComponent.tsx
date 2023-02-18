@@ -5,6 +5,7 @@ import { Piece, Square } from 'react-chessboard/dist/chessboard/types';
 
 export type ChessBoardComponentProps = {
 	game: Chess;
+	setGame: Dispatch<SetStateAction<Chess>>;
 	width: number;
 	fen: string;
 	setFen: Dispatch<SetStateAction<string>>;
@@ -14,6 +15,7 @@ export const ChessBoardComponent = ({
 	fen,
 	setFen,
 	game,
+	setGame,
 	width,
 }: ChessBoardComponentProps) => {
 	// const [fen, setFen] = useState<string>(() => DEFAULT_POSITION);
@@ -24,28 +26,33 @@ export const ChessBoardComponent = ({
 		piece: Piece
 	) => {
 		try {
-			const move = game.move({
+			const copy = Object.assign(game, Chess);
+			const move = copy.move({
 				from: sourceSquare,
 				to: targetSquare,
 				promotion: 'q',
 			} as Move);
 
-			setFen(game.fen());
+			setGame(copy);
+			setFen(copy.fen());
 			return move !== null;
 		} catch (e) {
+			console.log(e);
 			return false;
 		}
 	};
 
 	return (
 		game && (
-			<Chessboard
-				position={fen}
-				boardWidth={width}
-				arePiecesDraggable
-				id='BasicBoard'
-				onPieceDrop={handleDrop}
-			/>
+			<div className='chess-board'>
+				<Chessboard
+					position={fen}
+					boardWidth={width}
+					arePiecesDraggable
+					id='BasicBoard'
+					onPieceDrop={handleDrop}
+				/>
+			</div>
 		)
 	);
 };

@@ -3,10 +3,19 @@ import { GameTreeNode } from './GameTreeNode';
 export class GameTree {
 	_root: GameTreeNode;
 	_crt: GameTreeNode | null;
+	_nxt: GameTreeNode | null;
 
-	constructor() {
+	constructor(copy?: GameTree) {
+		if (copy) {
+			this._root = copy.root;
+			this._crt = copy.crt;
+			this._nxt = copy.nxt;
+			return;
+		}
+
 		this._root = new GameTreeNode();
 		this._crt = null;
+		this._nxt = null;
 	}
 
 	get root() {
@@ -17,8 +26,16 @@ export class GameTree {
 		return this._crt;
 	}
 
+	get nxt() {
+		return this._nxt;
+	}
+
 	set crt(value) {
 		this._crt = value;
+	}
+
+	set nxt(value) {
+		this._nxt = value;
 	}
 
 	deleteNode(node: GameTreeNode): void {
@@ -29,6 +46,7 @@ export class GameTree {
 		);
 
 		this._crt = prev;
+		this._nxt = prev.lines[0] ?? null;
 	}
 
 	addLine(history: Array<string>, node?: GameTreeNode): void {
@@ -54,9 +72,11 @@ export class GameTree {
 		}
 
 		this._crt = crt;
+		this._nxt = crt.lines[0] ?? null;
 	}
 
-	moveNodeUp(node: GameTreeNode): void {
+	moveNodeUp(node: GameTreeNode | null): void {
+		if (!node) return;
 		const prev = node.prev ?? this._root;
 		const index = prev.lines.findIndex((e) => e === node);
 
@@ -64,9 +84,11 @@ export class GameTree {
 			prev.lines[Math.max(index - 1, 0)],
 			prev.lines[index],
 		];
+		console.log(node);
 	}
 
-	moveNodeDown(node: GameTreeNode): void {
+	moveNodeDown(node: GameTreeNode | null): void {
+		if (!node) return;
 		const prev = node.prev ?? this._root;
 		const index = prev.lines.findIndex((e) => e === node);
 
@@ -77,6 +99,7 @@ export class GameTree {
 			prev.lines[Math.min(index + 1, prev.lines.length - 1)],
 			prev.lines[index],
 		];
+		console.log(node);
 	}
 
 	moveNodeFirst(node: GameTreeNode): void {
@@ -84,5 +107,17 @@ export class GameTree {
 		const index = prev.lines.findIndex((e) => e === node);
 
 		[prev.lines[index], prev.lines[0]] = [prev.lines[0], prev.lines[index]];
+	}
+
+	history(node: GameTreeNode): string[] {
+		let history = [];
+
+		let crt: GameTreeNode | undefined = node;
+		while (crt && crt.move) {
+			history.push(crt.move);
+			crt = crt.prev;
+		}
+
+		return history.reverse();
 	}
 }
