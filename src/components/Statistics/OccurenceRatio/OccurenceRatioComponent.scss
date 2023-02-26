@@ -9,6 +9,9 @@
         background-color: var(--highlight-color-tertiary);
         padding: 0rem 1rem;
         border-radius: 0.5rem;
+        
+        transition: all 0.7s cubic-bezier(.76,.01,.19,1);
+        font-family: var(--ff-content);
 
         &::before{
             content: "%";

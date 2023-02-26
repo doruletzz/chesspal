@@ -1,4 +1,4 @@
-import { Chess } from 'chess.js';
+import { Chess, DEFAULT_POSITION } from 'chess.js';
 import React, {
 	Dispatch,
 	MouseEvent,
@@ -31,30 +31,30 @@ export const AnalysisTreeComponent = ({
 	setFen,
 }: AnalysisTreeComponentProps) => {
 	const [statistics, setStatistics] = useState<GameStats>({
-		occurence: 0.75,
-		whiteWins: 24,
-		blackWins: 33,
-		draws: 12,
+		occurence: 0,
+		whiteWins: 0,
+		blackWins: 0,
+		draws: 0,
 	});
 	const [ratio, setRatio] = useState<Ratio>({ white: 0, black: 0, draws: 0 });
 
 	useEffect(() => {
-		// api.get('/stats', {
-		// 	params: {
-		// 		src: fen,
-		// 		dest: fen,
-		// 	},
-		// })
-		// 	.then((res) => setStatistics(res.data))
-		// 	.catch((err) => {
-		// 		console.error(err);
-		// 		setStatistics({
-		// 			occurence: 0,
-		// 			whiteWins: 0,
-		// 			blackWins: 0,
-		// 			draws: 0,
-		// 		});
-		// 	});
+		api.get('/stats', {
+			params: {
+				src: DEFAULT_POSITION,
+				dest: fen,
+			},
+		})
+			.then((res) => setStatistics(res.data))
+			.catch((err) => {
+				console.error(err);
+				setStatistics({
+					occurence: 0,
+					whiteWins: 0,
+					blackWins: 0,
+					draws: 0,
+				});
+			});
 	}, [fen]);
 
 	useEffect(() => {

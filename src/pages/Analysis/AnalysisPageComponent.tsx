@@ -1,5 +1,6 @@
 import { Chess, DEFAULT_POSITION } from 'chess.js';
 import React, { MouseEvent, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import AnalysisTree from '../../components/AnalysisTree';
 import ChessBoard from '../../components/Board';
 import Button from '../../components/Button';
@@ -10,10 +11,16 @@ import './AnalysisPageComponent.scss';
 const DEFAULT_BOARD_WIDTH = 600;
 
 export const AnalysisPageComponent = () => {
+	const { id } = useParams();
+
 	const [width, setWidth] = useState<number>(() => DEFAULT_BOARD_WIDTH);
 	const [game, setGame] = useState<Chess>(() => new Chess());
 	const [fen, setFen] = useState<string>(() => DEFAULT_POSITION);
 	const [gameTree, setGameTree] = useState<GameTree>(() => new GameTree());
+
+	useEffect(() => {
+		console.log(id);
+	}, [id]);
 
 	useEffect(() => {
 		if (gameTree.crt) {
