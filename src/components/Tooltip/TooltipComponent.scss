@@ -9,12 +9,13 @@
         line-height: 1.25;
         font-size: 0.75rem;
         font-weight: normal;
+        font-family: var(--ff-content);
 
         min-width: 24ch;
 
         background-color: var(--bg-color-900);
         color: var(--text-color-800);
-        border: 0.1rem solid var(--highlight-color-secondary);
+        border: 0.1rem solid var(--text-color-400);
         border-radius: 0.25rem;
         padding: 0.75rem;
 
@@ -37,13 +38,16 @@
         &.bottom {
             top: 100%;
             right: 0;
+            left: 50%;
+            transform: translateX(-50%);
             margin-top: 1rem;
         }
 
         &.top {
             bottom: 100%;
             right: 0;
-            left: 0;
+            left: 50%;
+            transform: translateX(-50%);
             margin-bottom: 0.5rem;
         }
     }

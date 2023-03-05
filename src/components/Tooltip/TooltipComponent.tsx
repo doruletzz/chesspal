@@ -4,7 +4,7 @@ import './TooltipComponent.scss';
 
 interface TooltipComponentProps<T extends React.ElementType> {
 	component?: T;
-	style: CSSProperties;
+	style?: CSSProperties;
 	title?: string | boolean;
 	className?: string;
 	position?: 'left' | 'right' | 'top' | 'bottom';

@@ -1,4 +1,5 @@
 import React from 'react';
+import Tooltip from '../../Tooltip';
 
 import './OccurenceRatioComponent.scss';
 
@@ -11,13 +12,15 @@ export const OccurenceRatioComponent = ({
 }: OccurenceRatioComponentProps) => {
 	return (
 		<div className='occurence-wrapper'>
-			<div
-				className='occurence'
-				style={{ flexBasis: (occurence * 100).toFixed(0) + '%' }}
-			>
-				{(occurence * 100).toFixed(2)}%
-			</div>
-			<div className='empty' />
+			<Tooltip position='top' title='Occurence Ratio'>
+				<div
+					className='occurence'
+					style={{ flexBasis: (occurence * 100).toFixed(0) + '%' }}
+				>
+					{(occurence * 100).toFixed(2)}%
+				</div>
+				<div className='empty' />
+			</Tooltip>
 		</div>
 	);
 };

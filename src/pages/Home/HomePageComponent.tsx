@@ -6,6 +6,7 @@ import heroImageSrc from '../../assets/hero-image.png';
 import api from '../../api';
 import { Chessboard } from 'react-chessboard';
 import { useNavigate } from 'react-router-dom';
+import Button from '../../components/Button';
 
 const lorem =
 	'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta omnis amet labore dolorum harum neque qui maxime eius eveniet sint. Omnis in magni non ducimus illum rerum dolores voluptas aliquid.';
@@ -71,13 +72,14 @@ export const HomePageComponent = () => {
 			<section className='hero-section'>
 				<h1>{HEADING}</h1>
 				<p>{SUBHEADING}</p>
+				<Button onClick={() => navigate('/analysis')}>START NOW</Button>
 				{/* <p>{SUBHEADING}</p> */}
 				<div className='hero-image'>
 					<img src={heroImageSrc} />
 				</div>
 			</section>
 			<section className='cards-section'>
-				{items.length &&
+				{items &&
 					items.map((item) => (
 						<Card key={item.pgnId}>
 							<div className='text'>

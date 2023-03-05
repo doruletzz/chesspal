@@ -1,3 +1,14 @@
+import {
+	faBackward,
+	faCaretLeft,
+	faCaretRight,
+	faDownload,
+	faFileExport,
+	faFileImport,
+	faForward,
+	faUpload,
+} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Chess, DEFAULT_POSITION } from 'chess.js';
 import React, {
 	Dispatch,
@@ -8,12 +19,15 @@ import React, {
 } from 'react';
 import api from '../../api';
 import GameTree from '../../utils/GameTree';
+import { pgnToGame } from '../../utils/pgn/parser';
 import AnalysisGameTree from '../AnalysisGameTree';
 import Button from '../Button';
+import Dialog from '../Dialog';
 import OccurenceRatio from '../Statistics/OccurenceRatio';
 import WinLossDrawRatio from '../Statistics/WinLossDrawRatio';
-
+import Tooltip from '../Tooltip';
 import './AnalysisTreeComponent.scss';
+import { ImportPgnFormComponent } from './ImportPgnFormComponent';
 
 type AnalysisTreeComponentProps = {
 	gameTree: GameTree;
@@ -37,6 +51,8 @@ export const AnalysisTreeComponent = ({
 		draws: 0,
 	});
 	const [ratio, setRatio] = useState<Ratio>({ white: 0, black: 0, draws: 0 });
+	const [showImportDialog, setShowImportDialog] = useState<boolean>(false);
+	const [importPgn, setImportPgn] = useState<string>('');
 
 	useEffect(() => {
 		api.get('/stats', {
@@ -56,6 +72,10 @@ export const AnalysisTreeComponent = ({
 				});
 			});
 	}, [fen]);
+
+	useEffect(() => {
+		if (importPgn) setGameTree(pgnToGame(importPgn));
+	}, [importPgn]);
 
 	useEffect(() => {
 		const { whiteWins, blackWins, draws } = statistics;
@@ -147,16 +167,28 @@ export const AnalysisTreeComponent = ({
 		setFen(game.fen());
 	};
 
+	const handleExportClick = (e: MouseEvent<HTMLButtonElement>) => {
+		// pgnToGame();
+	};
+
+	const handleImportClick = (e: MouseEvent<HTMLButtonElement>) => {
+		setShowImportDialog(true);
+	};
+
 	return (
 		<div key={fen} className='analysis-tree-container'>
 			<h4 className='analysis-tree-heading'>ChessPal Explorer</h4>
 			<AnalysisGameTree game={gameTree} setGame={setGameTree} />
 			<div className='statistics-container'>
-				<div className='total-games'>
+				<Tooltip
+					title='Total Number of Game '
+					className='total-games'
+					position='top'
+				>
 					{statistics.whiteWins +
 						statistics.draws +
 						statistics.blackWins}
-				</div>
+				</Tooltip>
 				<OccurenceRatio occurence={statistics.occurence} />
 				<WinLossDrawRatio ratio={ratio} />
 				{/* <div>{ratio.white.toFixed(2)}%</div>
@@ -164,11 +196,48 @@ export const AnalysisTreeComponent = ({
 				<div>{ratio.black.toFixed(2)}%</div> */}
 			</div>
 			<div className='buttons-container'>
-				<Button onClick={handleFirstLineClick}>{'<<'}</Button>
-				<Button onClick={handlePreviousLineClick}>{'<'}</Button>
-				<Button onClick={handleNextLineClick}>{'>'}</Button>
-				<Button onClick={handleLastLineClick}>{'>>'}</Button>
+				<div className='import-export'>
+					<Tooltip position='top' title='Import your games'>
+						<Button onClick={handleImportClick}>
+							{<FontAwesomeIcon icon={faDownload} />}
+						</Button>
+					</Tooltip>
+					<Tooltip position='top' title='Export your games'>
+						<Button onClick={handleExportClick}>
+							{<FontAwesomeIcon icon={faUpload} />}
+						</Button>
+					</Tooltip>
+				</div>
+				<div className='history'>
+					<Button onClick={handleFirstLineClick}>
+						{<FontAwesomeIcon icon={faBackward} />}
+					</Button>
+					<Button onClick={handlePreviousLineClick}>
+						{<FontAwesomeIcon icon={faCaretLeft} />}
+					</Button>
+					<Button onClick={handleNextLineClick}>
+						{<FontAwesomeIcon icon={faCaretRight} />}
+					</Button>
+					<Button onClick={handleLastLineClick}>
+						{<FontAwesomeIcon icon={faForward} />}
+					</Button>
+				</div>
 			</div>
+			{showImportDialog && (
+				<Dialog
+					onClose={() => {
+						setShowImportDialog(false);
+					}}
+					open={showImportDialog}
+				>
+					<ImportPgnFormComponent
+						setPgn={(pgn) => {
+							setImportPgn(pgn);
+							setShowImportDialog(false);
+						}}
+					/>
+				</Dialog>
+			)}
 		</div>
 	);
 };

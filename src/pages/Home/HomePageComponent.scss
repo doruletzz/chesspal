@@ -1,14 +1,17 @@
 .home-page-container {
-    margin: 12rem 9rem 2rem 9rem;
+    padding: 12rem 9rem 2rem 9rem;
 
     display: flex;
     flex-direction: column;
     gap: 9rem;
+
+    position: relative;
+
     
     .hero-section {
         display: grid;
         grid-template-columns: 1fr 12rem;
-        grid-template-rows: 1fr 8rem 2rem;
+        grid-template-rows: 1fr 6rem 2rem;
 
         gap: 2rem;
 
@@ -50,6 +53,28 @@
             color: var(--text-color-800);
 
             max-width: 64ch;
+        }
+
+
+
+        & > .button.primary {
+            height: 3rem;
+            width: 12rem;
+
+            background-color: transparent;
+            color: var(--text-color-900);
+            border: 0.1rem solid var(--text-color-800);
+
+            &::after {
+                content: ">";
+                margin-left: 1rem;
+            }
+
+
+            &:hover::after {
+                content: "->";
+                margin-left: 1rem;
+            }
         }
     }
 
