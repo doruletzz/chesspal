@@ -7,6 +7,13 @@ import api from '../../api';
 import { Chessboard } from 'react-chessboard';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+	faArrowRight,
+	faChess,
+	faHandPointRight,
+	faLongArrowAltRight,
+} from '@fortawesome/free-solid-svg-icons';
 
 const lorem =
 	'Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta omnis amet labore dolorum harum neque qui maxime eius eveniet sint. Omnis in magni non ducimus illum rerum dolores voluptas aliquid.';
@@ -19,27 +26,6 @@ type RepertoireCard = {
 };
 
 export const HomePageComponent = () => {
-	const IMG_SRC =
-		'https://images.unsplash.com/photo-1571236207041-5fb70cec466e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80';
-
-	// const CARDS = [
-	// 	{
-	// 		img: <img src={IMG_SRC} />,
-	// 		title: 'CARD TITLE #1',
-	// 		description: lorem,
-	// 	},
-	// 	{
-	// 		img: <img src={IMG_SRC} />,
-	// 		title: 'CARD TITLE #1',
-	// 		description: lorem,
-	// 	},
-	// 	{
-	// 		img: <img src={IMG_SRC} />,
-	// 		title: 'CARD TITLE #1',
-	// 		description: lorem,
-	// 	},
-	// ];
-
 	const [items, setItems] = useState<Array<RepertoireCard>>([]);
 
 	const HEADING =
@@ -50,11 +36,13 @@ export const HomePageComponent = () => {
 
 	useEffect(() => {
 		if (items.length === 0) {
-			api.get('/repertoire/get_all').then((res) => {
-				const { data } = res;
-				console.log(data);
-				setItems(data);
-			});
+			api.get('/repertoire/')
+				.then((res) => {
+					const { data } = res;
+					console.log(data);
+					setItems(data);
+				})
+				.catch((err) => console.error(err));
 		}
 	}, [items]);
 
@@ -72,7 +60,14 @@ export const HomePageComponent = () => {
 			<section className='hero-section'>
 				<h1>{HEADING}</h1>
 				<p>{SUBHEADING}</p>
-				<Button onClick={() => navigate('/analysis')}>START NOW</Button>
+				<div className='buttons'>
+					<Button onClick={() => navigate('/analysis')}>
+						START NOW <FontAwesomeIcon icon={faArrowRight} />
+					</Button>
+					<Button variant='text' onClick={() => navigate('/play')}>
+						PLAY ONLINE <FontAwesomeIcon icon={faChess} />
+					</Button>
+				</div>
 				{/* <p>{SUBHEADING}</p> */}
 				<div className='hero-image'>
 					<img src={heroImageSrc} />

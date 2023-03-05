@@ -11,6 +11,7 @@ import './styles/global.scss';
 
 const navItems = [
 	{ name: 'analysis', to: 'analysis' },
+	{ name: 'play', to: 'play' },
 	{ name: 'about', to: 'about' },
 ];
 

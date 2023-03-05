@@ -1,10 +1,12 @@
 import { Chess, DEFAULT_POSITION } from 'chess.js';
 import React, { MouseEvent, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import api from '../../api';
 import AnalysisTree from '../../components/AnalysisTree';
 import ChessBoard from '../../components/Board';
 import Button from '../../components/Button';
 import GameTree, { GameTreeNode } from '../../utils/GameTree';
+import { pgnToGame } from '../../utils/pgn/parser';
 
 import './AnalysisPageComponent.scss';
 
@@ -19,7 +21,16 @@ export const AnalysisPageComponent = () => {
 	const [gameTree, setGameTree] = useState<GameTree>(() => new GameTree());
 
 	useEffect(() => {
-		console.log(id);
+		if (id) {
+			api.get('/repertoire/' + id)
+				.then((res) => {
+					const { data } = res;
+
+					setGameTree(pgnToGame(data));
+					console.log(data);
+				})
+				.catch((error) => console.error(error));
+		}
 	}, [id]);
 
 	useEffect(() => {

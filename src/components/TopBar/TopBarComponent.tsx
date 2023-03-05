@@ -1,3 +1,5 @@
+import { faChessRook } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { ReactNode, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -22,6 +24,7 @@ export const TopBarComponent = ({ items, logo }: TopBarComponentProps) => {
 	return (
 		<div className='topbar-container'>
 			<div className='logo' onClick={(e) => navigate('/')}>
+				<FontAwesomeIcon icon={faChessRook} />
 				{logo}
 			</div>
 			<ul className='nav-items'>

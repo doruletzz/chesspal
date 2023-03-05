@@ -209,18 +209,29 @@ export const AnalysisTreeComponent = ({
 					</Tooltip>
 				</div>
 				<div className='history'>
-					<Button onClick={handleFirstLineClick}>
-						{<FontAwesomeIcon icon={faBackward} />}
-					</Button>
-					<Button onClick={handlePreviousLineClick}>
-						{<FontAwesomeIcon icon={faCaretLeft} />}
-					</Button>
-					<Button onClick={handleNextLineClick}>
-						{<FontAwesomeIcon icon={faCaretRight} />}
-					</Button>
-					<Button onClick={handleLastLineClick}>
-						{<FontAwesomeIcon icon={faForward} />}
-					</Button>
+					<Tooltip position='top' title='Go to first move'>
+						<Button onClick={handleFirstLineClick}>
+							{<FontAwesomeIcon icon={faBackward} />}
+						</Button>
+					</Tooltip>
+
+					<Tooltip position='top' title='Go to previous move'>
+						<Button onClick={handlePreviousLineClick}>
+							{<FontAwesomeIcon icon={faCaretLeft} />}
+						</Button>
+					</Tooltip>
+
+					<Tooltip position='top' title='Go to next move'>
+						<Button onClick={handleNextLineClick}>
+							{<FontAwesomeIcon icon={faCaretRight} />}
+						</Button>
+					</Tooltip>
+
+					<Tooltip position='top' title='Go to last move'>
+						<Button onClick={handleLastLineClick}>
+							{<FontAwesomeIcon icon={faForward} />}
+						</Button>
+					</Tooltip>
 				</div>
 			</div>
 			{showImportDialog && (

@@ -13,7 +13,7 @@
         grid-template-columns: 1fr 12rem;
         grid-template-rows: 1fr 6rem 2rem;
 
-        gap: 2rem;
+        gap: 3rem;
 
         & > .hero-image {
             grid-column: 2;
@@ -57,23 +57,46 @@
 
 
 
-        & > .button.primary {
-            height: 3rem;
-            width: 12rem;
+        & > .buttons {
+            display: flex;
+            gap: 2rem;
 
-            background-color: transparent;
-            color: var(--text-color-900);
-            border: 0.1rem solid var(--text-color-800);
+            .button {
+                height: 3rem;
+                width: 12rem;
+                transition: all 0.2s ease-in;
 
-            &::after {
-                content: ">";
-                margin-left: 1rem;
-            }
+                &.primary {
 
+                    background-color: var(--bg-color-800);
+                    color: var(--text-color-900);
+                    border: 0.1rem solid var(--text-color-400);
+    
+                    &:hover {
+                        background-color: var(--bg-color-700);
+                        border-bottom: 0.1rem solid var(--highlight-color-primary);
+                    }
+                }
 
-            &:hover::after {
-                content: "->";
-                margin-left: 1rem;
+                &.text {
+                    background-color: transparent;
+                    color: var(--text-color-800);
+
+                    &:hover {
+                        background-color: var(--bg-color-700);
+                        color: var(--text-color-900);
+                    }
+                }
+
+                display: flex;
+                gap: 1rem;
+                justify-content: center;
+                align-items: center;
+
+                &:hover {
+                    padding-left: 1rem;
+                    gap: 1.5rem;
+                }
             }
         }
     }
