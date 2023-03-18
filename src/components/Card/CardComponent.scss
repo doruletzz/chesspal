@@ -1,0 +1,46 @@
+@use '../../styles/colors' as *;
+
+.card-container {
+    position: relative;
+    padding: 2rem;
+    border-radius: 0.75rem ;
+
+    border: 0.1rem solid var(--text-color-400);
+    background-color: var(--bg-color-800);
+
+    transform: perspective(30rem) rotateX(0deg) rotateY(0deg);
+    transition: transform 0.7s  ease-in-out;
+
+    &:hover {
+        transform: perspective(30rem) rotateX(var(--rotate-y)) rotateY(var(--rotate-x));
+        transition: transform 0.1s;
+    }
+
+    &::before {
+        background: radial-gradient(90rem circle at var(--mouse-x) var(--mouse-y),
+            var(--highlight-color-primary),
+            transparent 40%);
+        content: "";
+        position: absolute;
+        height: 100%;
+        width: 100%;
+
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        
+        border-radius: 0.75rem ;
+        transition: all 0.9s;
+    }
+
+    &::before {
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    &:hover::before {
+        opacity: 0.1;
+    }
+
+}

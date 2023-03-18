@@ -1,0 +1,32 @@
+.occurence-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
+
+    background-color: var(--bg-color-700);
+    font-family: var(--ff-content);
+
+    .occurence {
+        background-color: var(--highlight-color-tertiary);
+        padding: 0 0.5rem;
+        border-radius: 0.5rem;
+        
+        transition: all 0.7s cubic-bezier(.76,.01,.19,1);
+
+        &::before{
+            content: "%";
+            margin-top: -0.25rem;
+            margin-right: 0.25rem;
+
+            color: var(--text-color-700);
+            font-family: var(--ff-content);
+            font-size: 1.25rem;
+            line-height: 1.5;
+            font-weight: bold;
+        }
+    }
+
+    .empty {
+        flex-grow: 1;
+    }
+}

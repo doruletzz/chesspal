@@ -1,0 +1,47 @@
+.topbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 1.75rem;
+    min-height: 4rem;
+
+    .logo {
+        display: flex;
+        gap: 0.75rem;
+
+        align-items: center;
+
+        svg {
+            height: 1rem;
+        }
+
+        cursor: pointer;
+        text-transform: uppercase;
+        font-family: var(--ff-content);
+        color: var(--text-color-900);
+        font-weight: bold;
+        font-size: 1.275rem;
+
+        &:hover {
+            color: var(--highlight-color-primary);
+        }
+    }
+
+    .nav-items {
+        display: flex;
+        gap: 2rem;
+
+        .nav-item {
+            cursor: pointer;
+            text-transform: uppercase;
+            font-family: var(--ff-content);
+            font-size: 0.875rem;
+            color: var(--text-color-800);
+
+            &:hover, &.active  {
+                color: var(--text-color-900);
+            }
+        }
+    }
+}

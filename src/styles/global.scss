@@ -1,0 +1,38 @@
+@use './reset';
+@use './colors' as *;
+@use './fonts' as *;
+
+
+:root {
+    --bg-color-900: #{$bg-color-900};
+    --bg-color-800: #{$bg-color-800};
+    --bg-color-700: #{$bg-color-700};
+    --bg-color-400: #{$bg-color-400};
+
+    --text-color-900: #{$text-color-900};
+    --text-color-800: #{$text-color-800};
+    --text-color-700: #{$text-color-700};
+    --text-color-400: #{$text-color-400};
+
+    --red-color-700: #{$red-color-700};
+    --green-color-700: #{$green-color-700};
+    --gray-color-700: #{$gray-color-700};
+
+    --red-color-900: #{$red-color-900};
+    --green-color-900: #{$green-color-900};
+    --gray-color-900: #{$gray-color-900};
+
+
+    --highlight-color-primary: #{$highlight-color-primary};
+    --highlight-color-secondary: #{$highlight-color-secondary};
+    --highlight-color-tertiary: #{$highlight-color-tertiary};
+
+    --ff-heading: 'Rubik', monospace;
+    --ff-content: 'Rubik', sans-serif;
+}
+
+body, html {
+    background-color: var(--bg-color-900);
+    color: var(--text-color-900);
+    overflow-x: hidden;
+}

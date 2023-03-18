@@ -1,0 +1,108 @@
+.game-tree-container {
+    display: grid;
+    grid-template-columns: 3ch 1fr 1fr;
+    align-items: center;
+
+    grid-auto-rows: min-content;
+
+    border-radius: 0.5rem;
+
+    overflow: auto;
+
+
+    .button {
+        background-color: var(--bg-color-800);
+        color: var(--text-color-800);
+
+        max-height: 2rem;
+        padding: 0.5rem 0.5rem;
+
+        text-align: left;
+
+        &:hover,
+        &.current{
+            color: var(--text-color-900);
+            border-bottom: 0.1rem solid var(--highlight-color-primary);
+        }
+
+
+        &.next{
+            color: var(--text-color-900);
+        }
+        
+        &.current{
+            background-color: var(--bg-color-700);
+        }
+
+        .move, .move-number {
+            font-family: var(--ff-content);
+        }
+    }
+
+    .game-tree-line-secondary-container + .game-tree-line-primary.black {
+        grid-column-start: 3;
+    }
+
+    .game-tree-line-primary + .game-tree-line-secondary-container {
+        padding: 0 1rem;
+    }
+
+    .game-tree-line-secondary-container {
+        grid-column: span 3;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .button {
+            margin: 0;
+            padding: 0.1rem 0.25rem;
+            display: flex;
+            align-items: baseline;
+
+            color: var(--text-color-800);
+
+            .move-number {
+                font-size: 0.875rem;
+                color: var(--text-color-700);
+            }
+
+            .move {
+                font-size: 1rem;
+            }
+
+            
+
+            &:hover,
+            &.current,
+            &.next {
+                color: var(--text-color-900);
+            }
+        }
+
+        .secondary-wrapper {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+
+            .game-tree-line-secondary-container{
+                flex-direction: row;
+            }
+
+            &::before {
+                content: "(";
+                color: var(--text-color-700);
+            }
+    
+            &::after {
+                content: ")";
+                color: var(--text-color-700);
+            }
+        }
+    }
+
+    .move-number {
+        max-height: 2rem;
+        font-size: 0.875rem;
+        color: var(--text-color-700);
+    }
+}
