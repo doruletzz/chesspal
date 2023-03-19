@@ -44,3 +44,15 @@ input{
     -webkit-appearance: none;
     border-radius: 0;
 }
+
+/* Change the white to any color */
+input:-webkit-autofill{
+    -webkit-text-fill-color: var(--text-color-900);
+    -webkit-box-shadow: 0 0 0 30px var(--bg-color-900) inset !important;
+    &:hover, &:focus, &:focus-within, &:active {
+        -webkit-box-shadow: 0 0 0 30px var(--bg-color-700) inset !important;
+        box-shadow: 0 0 0 1000px var(--bg-color-700) inset !important;
+    }
+
+    color: var(--text-color-900) !important;
+}

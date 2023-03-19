@@ -1,0 +1,62 @@
+.play-page-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    gap: 2rem;
+
+    overflow: hidden;
+
+    .chess-board {
+    }
+
+    .analysis-container {
+            display: grid;
+            grid-template-rows: 2rem 2.25rem 1fr 2.25rem;
+            gap: 1rem;
+        
+            background-color: var(--bg-color-800);
+            border-radius: 0.5rem;
+        
+            min-height: 600px;
+            max-height: 600px;
+        
+            max-width: 520px;
+            min-width: 520px;
+        
+            grid-auto-rows: 2rem;
+            padding: 1.75rem 3rem;
+
+            .button {
+                background-color: var(--bg-color-800);
+                color: var(--text-color-800);
+                border: none;
+        
+                max-height: 2rem;
+                padding: 0.5rem 0.5rem;
+        
+                text-align: left;
+        
+                &:hover,
+                &.current{
+                    color: var(--text-color-900);
+                    border: none;
+                    border-bottom: 0.1rem solid var(--highlight-color-primary);
+                }
+        
+        
+                &.next{
+                    color: var(--text-color-900);
+                }
+                
+                &.current{
+                    background-color: var(--bg-color-700);
+                }
+        
+                .move, .move-number {
+                    font-family: var(--ff-content);
+                }
+            }
+    }
+}

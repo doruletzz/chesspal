@@ -1,0 +1,51 @@
+.login-page-container {
+    padding: 12rem 9rem 2rem 9rem;
+    display: grid;
+
+    justify-items: center;
+
+    .login-form {    
+        background-color: var(--bg-color-800);
+        border: 0.1rem solid var(--text-color-400);
+        border-radius: 0.5rem;
+
+        padding: 2rem;
+        min-width: 32rem;
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+
+        .title {
+            color: var(--highlight-color-secondary);
+            font-family: var(--ff-heading);
+            font-size: 3rem;
+            font-weight: bold;
+
+            grid-column: span 2;
+        }
+
+        .input {
+            grid-column: span 2;
+            background-color: var(--bg-color-900);
+
+            &:hover, &:active, &:focus-within {
+                background-color: var(--bg-color-700);
+
+            }
+        }
+
+        .button {
+            &.helper {
+                grid-column: span 2;
+                margin-right: auto;
+                min-height: 2.5rem;
+            }
+
+            &.register, &.login{
+                min-height: 3rem;
+            }
+        }
+    }
+
+}
