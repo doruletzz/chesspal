@@ -1,0 +1,42 @@
+.matchmaking-page-container {
+    display: grid;
+    justify-items: center;
+
+    margin: 9rem;
+
+    .card-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+
+        background-color: var(--bg-color-800);
+
+        border: 0.1rem solid var(--text-color-400);
+        border-radius: 0.75rem;
+
+        padding: 4rem;
+
+        .heading {
+            grid-column: span 2;
+            font-family: var(--ff-heading);
+            font-weight: bold;
+            font-size: 2rem;
+            color: var(--highlight-color-secondary)
+        }
+
+        .tooltip-wrapper {
+
+            .button {
+                width: 12rem;
+                height: 8rem;
+                font-size: 1.125rem;
+
+                background-color: var(--bg-color-900);
+
+                &:hover, &:active {
+                    background-color: var(--bg-color-700);
+                }
+            }
+        }
+    }
+}

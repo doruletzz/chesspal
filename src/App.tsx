@@ -8,13 +8,14 @@ const HomePage = lazy(() => import('./pages/Home'));
 const LoginPage = lazy(() => import('./pages/Login'));
 const RegisterPage = lazy(() => import('./pages/Register'));
 const PlayPage = lazy(() => import('./pages/Play'));
+const MatchMakingPage = lazy(() => import('./pages/MatchMaking'));
 
 import './styles/global.scss';
 
 const navItems = [
 	{ name: 'analysis', to: 'analysis' },
 	{ name: 'play', to: 'play' },
-	{ name: 'about', to: 'about' },
+	{ name: 'sign in', to: 'login' },
 ];
 
 export const App = () => {
@@ -29,6 +30,7 @@ export const App = () => {
 					<Route path='login/' element={<LoginPage />} />
 					<Route path='register/' element={<RegisterPage />} />
 					<Route path='play/:id' element={<PlayPage />} />
+					<Route path='matchmaking/' element={<MatchMakingPage />} />
 					<Route path='*' element={<Navigate to='home/' />} />
 				</Routes>
 			</Suspense>

@@ -34,6 +34,10 @@ export const PlayPageComponent = () => {
 	const [toMove, setToMove] = useState<'white' | 'black'>(() =>
 		game.turn() === 'w' ? 'white' : 'black'
 	);
+	const [players, setPlayers] = useState(() => ({
+		white: 'Magnus Carlsen',
+		black: 'Hikaru Nakamura',
+	}));
 
 	const eventData = useGameEventSource(eventStreamUrl, gameId);
 
@@ -123,7 +127,12 @@ export const PlayPageComponent = () => {
 			/>
 
 			<div className='analysis-container'>
-				<h4 className='analysis-tree-heading'>ChessPal Explorer</h4>
+				{players && (
+					<div className='analysis-tree-players'>
+						<h4>{players.white}</h4>
+						<h4>{players.black}</h4>
+					</div>
+				)}
 				<Clock time={time} setTime={setTime} toMove={toMove} />
 				<AnalysisGameTree game={gameTree} setGame={setGameTree} />
 			</div>
