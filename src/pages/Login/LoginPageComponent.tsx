@@ -1,6 +1,7 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, MouseEvent, useEffect, useState } from 'react';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
+import { loginSuccess, useAuthContext } from '../../contexts/AuthContext';
 
 import './LoginPageComponent.scss';
 
@@ -10,6 +11,24 @@ export const LoginPageComponent = () => {
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
+	};
+
+	const {
+		state: { sessionId, user, error },
+		dispatch,
+	} = useAuthContext();
+
+	useEffect(() => {
+		console.log(sessionId);
+	}, [sessionId]);
+
+	const handleLogin = (e: MouseEvent<HTMLButtonElement>) => {
+		dispatch(
+			loginSuccess('123', {
+				id: '1',
+				username: 'mock-user',
+			})
+		);
 	};
 
 	return (
@@ -42,7 +61,7 @@ export const LoginPageComponent = () => {
 				<Button
 					className='login'
 					variant='primary'
-					onClick={() => alert('login')}
+					onClick={handleLogin}
 				>
 					Log In
 				</Button>

@@ -12,16 +12,10 @@ const MatchMakingPage = lazy(() => import('./pages/MatchMaking'));
 
 import './styles/global.scss';
 
-const navItems = [
-	{ name: 'analysis', to: 'analysis' },
-	{ name: 'play', to: 'play' },
-	{ name: 'sign in', to: 'login' },
-];
-
 export const App = () => {
 	return (
 		<BrowserRouter>
-			<TopBar items={navItems} logo={'chesspal'} />
+			<TopBar logo={'chesspal'} />
 			<Suspense fallback={<div>Loading...</div>}>
 				<Routes>
 					<Route path='home/' element={<HomePage />} />
