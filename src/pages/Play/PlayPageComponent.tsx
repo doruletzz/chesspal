@@ -1,23 +1,33 @@
 import axios from 'axios';
 import { Chess, DEFAULT_POSITION, Move } from 'chess.js';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import api from '../../api';
 import AnalysisGameTree from '../../components/AnalysisGameTree';
 import ChessBoard from '../../components/Board';
 import Button from '../../components/Button';
 import Clock from '../../components/Clock';
+import { PLAY_GET_ALL_MOVES_API_PATH } from '../../constants';
+import { useAuthContext } from '../../contexts/AuthContext';
+import { useGameContext } from '../../contexts/GameContext';
 import { useGameEventSource } from '../../hooks/useGameEventSource';
 import GameTree from '../../utils/GameTree';
 
 import './PlayPageComponent.scss';
 
 export const PlayPageComponent = () => {
+	const {
+		state: { gameId },
+	} = useGameContext();
+
+	const {
+		state: { sessionId, user },
+	} = useAuthContext();
+
 	const [eventStreamUrl] = useState(
 		() => 'http://localhost:8080/api/play/stream'
 	);
 
-	const { id } = useParams();
 	const [game, setGame] = useState<Chess>(() => new Chess());
 	const [fen, setFen] = useState<string>(() => DEFAULT_POSITION);
 	const [gameTree, setGameTree] = useState<GameTree>(() => new GameTree());
@@ -30,7 +40,8 @@ export const PlayPageComponent = () => {
 		black: 180,
 	});
 	const [isWhite, setIsWhite] = useState(true);
-	const [gameId] = useState(() => 1);
+	// const [gameId] = useState(() => 1);
+
 	const [toMove, setToMove] = useState<'white' | 'black'>(() =>
 		game.turn() === 'w' ? 'white' : 'black'
 	);
@@ -44,7 +55,6 @@ export const PlayPageComponent = () => {
 	const sendMoveToApi = (move?: string) => {
 		api.post('/play/move', {
 			eventType: 'move',
-			userId: id,
 			gameId,
 			move,
 		})
@@ -110,9 +120,39 @@ export const PlayPageComponent = () => {
 		setGameTree(new GameTree(gameTree));
 	}, [fen]);
 
+	const createNewGame = (moves: string[]): Chess => {
+		let newGame = new Chess();
+
+		moves.forEach((move) => newGame.move(move));
+		return newGame;
+	};
+
 	useEffect(() => {
-		setIsWhite(id === '1');
-	}, [id]);
+		if (gameId)
+			api.get(PLAY_GET_ALL_MOVES_API_PATH, { data: { gameId } })
+				.then((res) => {
+					const {
+						moves,
+						gameId,
+						spentWhite,
+						spentBlack,
+						blackUserId,
+						whiteUserId,
+					} = res.data;
+
+					setGame(createNewGame(moves));
+					setIsWhite(user?.userId === whiteUserId);
+					setTime({
+						white: totalTime.white - spentWhite / 1000,
+						black: totalTime.black - spentBlack / 1000,
+					});
+				})
+				.catch((err) => console.error(err));
+	}, [gameId]);
+
+	if (!sessionId) return <Navigate to='/login' />;
+
+	if (!gameId) return <Navigate to='/matchmaking' />;
 
 	return (
 		<div className='play-page-container'>

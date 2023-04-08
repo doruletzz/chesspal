@@ -1,6 +1,9 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import api from './api';
 import TopBar from './components/TopBar';
+import { loginSuccess, useAuthContext } from './contexts/AuthContext';
+import { GameProvider } from './contexts/GameContext';
 // import AnalysisPage from './pages/Analysis';
 
 const AnalysisPage = lazy(() => import('./pages/Analysis'));
@@ -11,11 +14,27 @@ const PlayPage = lazy(() => import('./pages/Play'));
 const MatchMakingPage = lazy(() => import('./pages/MatchMaking'));
 
 import './styles/global.scss';
+import { getTokenFromLocalStorage } from './utils/auth';
 
 export const App = () => {
+	const {
+		state: { sessionId, user, error },
+		dispatch,
+	} = useAuthContext();
+
+	useEffect(() => {
+		if (!sessionId) {
+			const token = getTokenFromLocalStorage();
+			if (token) {
+				dispatch(loginSuccess(token));
+				api.defaults.headers['Authorization'] = `Bearer ${token}`;
+			}
+		}
+	}, [sessionId]);
+
 	return (
 		<BrowserRouter>
-			<TopBar logo={'chesspal'} />
+			<TopBar />
 			<Suspense fallback={<div>Loading...</div>}>
 				<Routes>
 					<Route path='home/' element={<HomePage />} />

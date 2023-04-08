@@ -1,8 +1,9 @@
-import React, { MouseEvent } from 'react';
+import React, { MouseEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
 import Tooltip from '../../components/Tooltip';
+import { setGameId, useGameContext } from '../../contexts/GameContext';
 
 import './MatchMakingPageComponent.scss';
 
@@ -28,12 +29,17 @@ const times = [
 export const MatchMakingPageComponent = () => {
 	const navigate = useNavigate();
 
+	const {
+		state: { gameId },
+		dispatch,
+	} = useGameContext();
+
 	const handlePlayButtonClick = (
 		e: MouseEvent<HTMLButtonElement>,
 		time: string
 	) => {
-		navigate('/play/1');
-		console.log('going to play with time: ', time);
+		// navigate('/play/1');
+		dispatch(setGameId(20));
 	};
 
 	return (

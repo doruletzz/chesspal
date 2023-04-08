@@ -7,7 +7,9 @@ type GameEvent = {
 	state: string;
 };
 
-export const useGameEventSource = (url: string, gameId: number) => {
+export const useGameEventSource = (url: string, gameId?: number | null) => {
+	if (!gameId) return;
+
 	const [data, setData] = useState<GameEvent | null>(null);
 
 	useEffect(() => {

@@ -1,39 +1,56 @@
 import React, { FormEvent, MouseEvent, useEffect, useState } from 'react';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-import { loginSuccess, useAuthContext } from '../../contexts/AuthContext';
+import {
+	loginFail,
+	loginSuccess,
+	useAuthContext,
+} from '../../contexts/AuthContext';
+
+import { LOGIN_API_PATH } from '../../constants/';
+
+import api from '../../api/index';
 
 import './LoginPageComponent.scss';
+import { Navigate } from 'react-router-dom';
+import {
+	deleteTokenFromLocalStorage,
+	getTokenFromLocalStorage,
+	setTokenToLocalStorage,
+} from '../../utils/auth';
 
 export const LoginPageComponent = () => {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
-
-	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-	};
 
 	const {
 		state: { sessionId, user, error },
 		dispatch,
 	} = useAuthContext();
 
-	useEffect(() => {
-		console.log(sessionId);
-	}, [sessionId]);
-
 	const handleLogin = (e: MouseEvent<HTMLButtonElement>) => {
-		dispatch(
-			loginSuccess('123', {
-				id: '1',
-				username: 'mock-user',
+		e.preventDefault();
+
+		api.post(LOGIN_API_PATH, {
+			userName: username,
+			password: password,
+		})
+			.then((res) => {
+				const { token, userId } = res.data;
+				dispatch(loginSuccess(token, { userId, username }));
+				setTokenToLocalStorage(token);
 			})
-		);
+			.catch((err) => {
+				dispatch(loginFail(err));
+				deleteTokenFromLocalStorage();
+			});
 	};
+
+	if (sessionId) return <Navigate to='/matchmaking' />;
 
 	return (
 		<div className='login-page-container'>
-			<form className='login-form' onSubmit={handleSubmit}>
+			<form className='login-form'>
 				<h4 className='title'>Log in</h4>
 				<Input
 					required
