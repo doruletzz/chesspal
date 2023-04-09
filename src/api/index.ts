@@ -4,7 +4,9 @@ import { BASE_URL } from '../constants';
 const api = axios.create({
 	baseURL: BASE_URL,
 	headers: {
-		Authorization: null,
+		common: {
+			Authorization: null,
+		},
 	},
 });
 

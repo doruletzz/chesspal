@@ -1,12 +1,26 @@
-// Auth
-export const LOGIN_API_PATH = '/auth/login';
-export const REGISTER_API_PATH = '/auth/register';
+export const API_ROUTE = {
+	// Auth
+	LOGIN: '/auth/login',
+	REGISTER: '/auth/register',
+	// Play
+	PLAY_STREAM: '/play/stream',
+	PLAY_ALL_MOVES: '/play/all_moves',
+	PLAY_MOVE: '/play/move', // needs auth
+	// Matchmaking
+	MATCHMAKING_MATCH: '/matchmaking/match', // needs auth
+	MATCHMAKING_STATUS: '/matchmaking/status', // needs auth
+	MATCHMAKING_CANCEL: '/matchmaking/cancel', // needs auth
+	// Stats
+	POSITION_STATS: '/stats',
+	MOVE_STATS: '/move_stats',
+};
 
-// Play
-export const PLAY_STREAM_API_PATH = '/play/stream';
-export const PLAY_GET_ALL_MOVES_API_PATH = '/play/all_moves';
-export const PLAY_GET_MOVE_API_PATH = '/play/move'; // needs auth
-
-// Stats
-export const POSITION_STATS_API_PATH = '/stats';
-export const MOVE_STATS_API_PATH = '/move_stats';
+export const PAGE_ROUTE = {
+	LOGIN: '/login',
+	REGISTER: '/register',
+	PLAY: '/play',
+	HOME: '/home',
+	ABOUT: '/about',
+	MATCHMAKING: '/matchmaking',
+	ANALYSIS: '/analysis',
+};

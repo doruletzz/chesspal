@@ -7,7 +7,7 @@ import AnalysisGameTree from '../../components/AnalysisGameTree';
 import ChessBoard from '../../components/Board';
 import Button from '../../components/Button';
 import Clock from '../../components/Clock';
-import { PLAY_GET_ALL_MOVES_API_PATH } from '../../constants';
+import { API_ROUTE } from '../../constants';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { useGameContext } from '../../contexts/GameContext';
 import { useGameEventSource } from '../../hooks/useGameEventSource';
@@ -53,7 +53,7 @@ export const PlayPageComponent = () => {
 	const eventData = useGameEventSource(eventStreamUrl, gameId);
 
 	const sendMoveToApi = (move?: string) => {
-		api.post('/play/move', {
+		api.post(API_ROUTE.PLAY_MOVE, {
 			eventType: 'move',
 			gameId,
 			move,
@@ -129,7 +129,7 @@ export const PlayPageComponent = () => {
 
 	useEffect(() => {
 		if (gameId)
-			api.get(PLAY_GET_ALL_MOVES_API_PATH, { data: { gameId } })
+			api.get(API_ROUTE.PLAY_ALL_MOVES, { params: { gameId } })
 				.then((res) => {
 					const {
 						moves,

@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import api from '../../api';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
-import { REGISTER_API_PATH } from '../../constants';
+import { API_ROUTE } from '../../constants';
 import { loginFail, useAuthContext } from '../../contexts/AuthContext';
 
 import './RegisterPageComponent.scss';
@@ -22,7 +22,7 @@ export const RegisterPageComponent = () => {
 
 	const handleRegister = (e: MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
-		api.post(REGISTER_API_PATH, {
+		api.post(API_ROUTE.REGISTER, {
 			userName: username,
 			email: email,
 			password: password,

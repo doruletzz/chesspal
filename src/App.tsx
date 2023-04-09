@@ -15,6 +15,7 @@ const MatchMakingPage = lazy(() => import('./pages/MatchMaking'));
 
 import './styles/global.scss';
 import { getTokenFromLocalStorage } from './utils/auth';
+import { PAGE_ROUTE } from './constants';
 
 export const App = () => {
 	const {
@@ -27,8 +28,16 @@ export const App = () => {
 			const token = getTokenFromLocalStorage();
 			if (token) {
 				dispatch(loginSuccess(token));
-				api.defaults.headers['Authorization'] = `Bearer ${token}`;
+				api.defaults.headers.common[
+					'Authorization'
+				] = `Bearer ${sessionId}`;
 			}
+		} else {
+			api.defaults.headers.common[
+				'Authorization'
+			] = `Bearer ${sessionId}`;
+
+			console.log(api.defaults.headers);
 		}
 	}, [sessionId]);
 
@@ -37,13 +46,25 @@ export const App = () => {
 			<TopBar />
 			<Suspense fallback={<div>Loading...</div>}>
 				<Routes>
-					<Route path='home/' element={<HomePage />} />
-					<Route path='analysis/:id' element={<AnalysisPage />} />
-					<Route path='analysis/' element={<AnalysisPage />} />
-					<Route path='login/' element={<LoginPage />} />
-					<Route path='register/' element={<RegisterPage />} />
-					<Route path='play/:id' element={<PlayPage />} />
-					<Route path='matchmaking/' element={<MatchMakingPage />} />
+					<Route path={PAGE_ROUTE.HOME} element={<HomePage />} />
+					<Route
+						path={`${PAGE_ROUTE.ANALYSIS}/:id`}
+						element={<AnalysisPage />}
+					/>
+					<Route
+						path={PAGE_ROUTE.ANALYSIS}
+						element={<AnalysisPage />}
+					/>
+					<Route path={PAGE_ROUTE.LOGIN} element={<LoginPage />} />
+					<Route
+						path={PAGE_ROUTE.REGISTER}
+						element={<RegisterPage />}
+					/>
+					<Route path={PAGE_ROUTE.PLAY} element={<PlayPage />} />
+					<Route
+						path={PAGE_ROUTE.MATCHMAKING}
+						element={<MatchMakingPage />}
+					/>
 					<Route path='*' element={<Navigate to='home/' />} />
 				</Routes>
 			</Suspense>

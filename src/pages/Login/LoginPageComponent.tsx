@@ -7,7 +7,7 @@ import {
 	useAuthContext,
 } from '../../contexts/AuthContext';
 
-import { LOGIN_API_PATH } from '../../constants/';
+import { API_ROUTE } from '../../constants/';
 
 import api from '../../api/index';
 
@@ -31,7 +31,7 @@ export const LoginPageComponent = () => {
 	const handleLogin = (e: MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();
 
-		api.post(LOGIN_API_PATH, {
+		api.post(API_ROUTE.LOGIN, {
 			userName: username,
 			password: password,
 		})

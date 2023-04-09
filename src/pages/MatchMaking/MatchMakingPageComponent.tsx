@@ -1,11 +1,18 @@
-import React, { MouseEvent, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { MouseEvent, useEffect, useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
 import Tooltip from '../../components/Tooltip';
-import { setGameId, useGameContext } from '../../contexts/GameContext';
+import {
+	setGameError,
+	setGameId,
+	setGameIsFetching,
+	useGameContext,
+} from '../../contexts/GameContext';
 
 import './MatchMakingPageComponent.scss';
+import api from '../../api';
+import { API_ROUTE, PAGE_ROUTE } from '../../constants';
 
 const times = [
 	{
@@ -28,19 +35,70 @@ const times = [
 
 export const MatchMakingPageComponent = () => {
 	const navigate = useNavigate();
+	const [isMatchFetching, setIsMatchFetching] = useState(false);
 
 	const {
-		state: { gameId },
+		state: { gameId, isFetching, error },
 		dispatch,
 	} = useGameContext();
+
+	useEffect(() => {
+		let interval: NodeJS.Timer;
+		if (isFetching && !gameId) {
+			interval = setInterval(() => {
+				api.get(API_ROUTE.MATCHMAKING_STATUS)
+					.then((res) => {
+						if (res.status === 200) {
+							dispatch(setGameId(res.data));
+							dispatch(setGameIsFetching(false));
+							console.log('interval...');
+							clearInterval(interval);
+						}
+					})
+					.catch((err) => {
+						if (err.request.status === 404) return;
+
+						dispatch(setGameError(err));
+						dispatch(setGameIsFetching(false));
+						console.log('interval...');
+						clearInterval(interval);
+					});
+			}, 5000);
+		}
+
+		return () => {
+			if (interval) clearInterval(interval);
+		};
+	}, [isFetching]);
 
 	const handlePlayButtonClick = (
 		e: MouseEvent<HTMLButtonElement>,
 		time: string
 	) => {
-		// navigate('/play/1');
-		dispatch(setGameId(20));
+		api.post(API_ROUTE.MATCHMAKING_MATCH)
+			.then((res) => {
+				if (res.status === 200) dispatch(setGameIsFetching(true));
+			})
+			.catch((err) => dispatch(setGameError(err)));
 	};
+
+	const handleCancel = (e: MouseEvent<HTMLButtonElement>) => {
+		dispatch(setGameIsFetching(false));
+	};
+
+	useEffect(() => {
+		console.log(gameId);
+	}, [gameId]);
+
+	if (isFetching)
+		return (
+			<div>
+				<div>Loading...</div>
+				<Button onClick={handleCancel}>Cancel</Button>
+			</div>
+		);
+
+	if (gameId) return <Navigate to={PAGE_ROUTE.PLAY} />;
 
 	return (
 		<div className='matchmaking-page-container'>
