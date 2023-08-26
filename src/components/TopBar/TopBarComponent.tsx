@@ -14,6 +14,7 @@ type NavItem = {
 const loggedInNavItems = [
 	{ name: 'analysis', to: 'analysis' },
 	{ name: 'play', to: 'play' },
+	{ name: 'practice', to: 'practise' },
 	{ name: 'profile', to: 'profile' },
 ];
 

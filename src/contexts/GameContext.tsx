@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 
 type GameState = {
+	variant?: 'multiplayer' | 'engine';
 	gameId: number | null;
 	isFetching: boolean;
 	error: string | null;
@@ -24,6 +25,7 @@ type ActionMap<M extends { [index: string]: any }> = {
 };
 // Initial state
 const initialState: GameState = {
+	variant: 'multiplayer',
 	gameId: null,
 	isFetching: false,
 	error: null,
@@ -32,11 +34,15 @@ const initialState: GameState = {
 // Actions
 export enum GameTypes {
 	SET_GAME_ID,
+	SET_VARIANT,
 	SET_IS_FETCHING,
 	SET_ERROR,
 }
 
 type GamePayload = {
+	[GameTypes.SET_VARIANT]: {
+		variant: 'multiplayer' | 'engine';
+	};
 	[GameTypes.SET_GAME_ID]: {
 		gameId: number;
 	};
@@ -51,6 +57,10 @@ type GamePayload = {
 export type GameActions = ActionMap<GamePayload>[keyof ActionMap<GamePayload>];
 
 // Action creators
+export const setVariant = (variant: 'multiplayer' | 'engine'): GameActions => {
+	return { type: GameTypes.SET_VARIANT, payload: { variant } };
+};
+
 export const setGameId = (gameId: number): GameActions => {
 	return { type: GameTypes.SET_GAME_ID, payload: { gameId } };
 };
@@ -69,6 +79,11 @@ export const authReducer = (
 	action: GameActions
 ): GameState => {
 	switch (action.type) {
+		case GameTypes.SET_VARIANT:
+			return {
+				...state,
+				variant: action.payload?.variant ?? 'multiplayer',
+			};
 		case GameTypes.SET_GAME_ID:
 			return {
 				...state,

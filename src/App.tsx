@@ -7,6 +7,7 @@ import { GameProvider } from './contexts/GameContext';
 // import AnalysisPage from './pages/Analysis';
 
 const AnalysisPage = lazy(() => import('./pages/Analysis'));
+const PratisePage = lazy(() => import('./pages/Practise'));
 const HomePage = lazy(() => import('./pages/Home'));
 const LoginPage = lazy(() => import('./pages/Login'));
 const RegisterPage = lazy(() => import('./pages/Register'));
@@ -50,6 +51,10 @@ export const App = () => {
 					<Route
 						path={`${PAGE_ROUTE.ANALYSIS}/:id`}
 						element={<AnalysisPage />}
+					/>
+					<Route
+						path={PAGE_ROUTE.PRACTISE}
+						element={<PratisePage />}
 					/>
 					<Route
 						path={PAGE_ROUTE.ANALYSIS}

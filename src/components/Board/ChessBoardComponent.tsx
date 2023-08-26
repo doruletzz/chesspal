@@ -11,10 +11,10 @@ export type ChessBoardComponentProps = {
 	isMultiplayer: boolean;
 	boardOrientation: BoardOrientation;
 	game: Chess;
-	setGame: Dispatch<SetStateAction<Chess>>;
+	setGame?: Dispatch<SetStateAction<Chess>>;
 	width: number;
 	fen: string;
-	setFen: Dispatch<SetStateAction<string>>;
+	setFen?: Dispatch<SetStateAction<string>>;
 };
 
 export const ChessBoardComponent = ({
@@ -34,8 +34,10 @@ export const ChessBoardComponent = ({
 		piece: Piece
 	) => {
 		if (
-			isMultiplayer &&
-			(game.turn() === 'b' ? 'black' : 'white') !== boardOrientation
+			!setGame ||
+			!setFen ||
+			(isMultiplayer &&
+				(game.turn() === 'b' ? 'black' : 'white') !== boardOrientation)
 		)
 			return false;
 

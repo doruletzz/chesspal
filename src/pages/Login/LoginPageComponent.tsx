@@ -50,7 +50,7 @@ export const LoginPageComponent = () => {
 
 	return (
 		<div className='login-page-container'>
-			<form className='login-form'>
+			<form className='login-form' onSubmit={(e) => e.preventDefault()}>
 				<h4 className='title'>Log in</h4>
 				<Input
 					required

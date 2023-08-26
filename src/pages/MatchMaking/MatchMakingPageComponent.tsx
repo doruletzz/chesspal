@@ -38,7 +38,7 @@ export const MatchMakingPageComponent = () => {
 	const [isMatchFetching, setIsMatchFetching] = useState(false);
 
 	const {
-		state: { gameId, isFetching, error },
+		state: { gameId, variant, isFetching, error },
 		dispatch,
 	} = useGameContext();
 
@@ -75,7 +75,11 @@ export const MatchMakingPageComponent = () => {
 		e: MouseEvent<HTMLButtonElement>,
 		time: string
 	) => {
-		api.post(API_ROUTE.MATCHMAKING_MATCH)
+		api.post(
+			variant === 'multiplayer'
+				? API_ROUTE.MATCHMAKING_MATCH
+				: API_ROUTE.MATCHMAKING_ENGINE_MATCH
+		)
 			.then((res) => {
 				if (res.status === 200) dispatch(setGameIsFetching(true));
 			})
@@ -104,6 +108,7 @@ export const MatchMakingPageComponent = () => {
 		<div className='matchmaking-page-container'>
 			<div className='card-container'>
 				<h4 className='heading'>Play</h4>
+
 				{times.map((time) => (
 					<Tooltip
 						key={time.key}

@@ -17,7 +17,7 @@ import './PlayPageComponent.scss';
 
 export const PlayPageComponent = () => {
 	const {
-		state: { gameId },
+		state: { gameId, variant },
 	} = useGameContext();
 
 	const {
