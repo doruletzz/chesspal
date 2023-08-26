@@ -5,7 +5,9 @@ import './PractisePageComponent.scss';
 import Button from '../../components/Button';
 import LineChessBoard from '../../components/LineChessBoard';
 import api from '../../api';
-import { API_ROUTE } from '../../constants';
+import { API_ROUTE, PAGE_ROUTE } from '../../constants';
+import { setVariant, useGameContext } from '../../contexts/GameContext';
+import { useNavigate } from 'react-router-dom';
 
 type Practise = {
 	name?: string;
@@ -16,6 +18,12 @@ type Practise = {
 const mockPractise = ['e4', 'e5', 'Nf3', 'Nc6', 'Bb5'];
 
 export const PractisePageComponent = () => {
+	const {
+		state: { gameId, variant, isFetching, error },
+		dispatch,
+	} = useGameContext();
+
+	const navigate = useNavigate();
 	const [data, setData] = useState<Practise[]>();
 
 	useEffect(() => {
@@ -27,7 +35,8 @@ export const PractisePageComponent = () => {
 	}, [data]);
 
 	const handleSelectPractice = (practice: Practise) => {
-		alert({ practice });
+		dispatch(setVariant('engine'));
+		navigate(PAGE_ROUTE.PLAY);
 	};
 
 	return (

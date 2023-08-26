@@ -51,7 +51,6 @@ export const MatchMakingPageComponent = () => {
 						if (res.status === 200) {
 							dispatch(setGameId(res.data));
 							dispatch(setGameIsFetching(false));
-							console.log('interval...');
 							clearInterval(interval);
 						}
 					})
@@ -70,6 +69,21 @@ export const MatchMakingPageComponent = () => {
 			if (interval) clearInterval(interval);
 		};
 	}, [isFetching]);
+
+	useEffect(() => {
+		if (variant === 'engine') {
+			api.post(API_ROUTE.MATCHMAKING_ENGINE_MATCH, {
+				colorPreference: 'white',
+				initialPositionMoves: [],
+				numMoves: 0,
+				engineElo: 1400,
+			})
+				.then((res) => {
+					if (res.status === 200) dispatch(setGameIsFetching(true));
+				})
+				.catch((err) => dispatch(setGameError(err)));
+		}
+	}, [variant]);
 
 	const handlePlayButtonClick = (
 		e: MouseEvent<HTMLButtonElement>,

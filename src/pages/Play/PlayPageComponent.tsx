@@ -101,6 +101,7 @@ export const PlayPageComponent = () => {
 			eventData?.lastMove &&
 			eventData?.lastMove !== lastMove?.lan
 		) {
+			console.log({ eventData });
 			const history = gameTree.history(gameTree.crt);
 			let newGame = new Chess();
 			history.forEach((move) => newGame.move(move));
@@ -141,7 +142,8 @@ export const PlayPageComponent = () => {
 					} = res.data;
 
 					setGame(createNewGame(moves));
-					setIsWhite(user?.userId === whiteUserId);
+					// FIXME: not working sometimes?
+					// setIsWhite(user?.userId === whiteUserId);
 					setTime({
 						white: totalTime.white - spentWhite / 1000,
 						black: totalTime.black - spentBlack / 1000,
