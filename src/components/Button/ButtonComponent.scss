@@ -6,4 +6,31 @@
     cursor: pointer;
 
     border-radius: 0.375rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+
+    &.primary {
+        background-color: var(--bg-color-800);
+        color: var(--text-color-900);
+        border: 0.1rem solid var(--text-color-400);
+
+        &:hover {
+            background-color: var(--bg-color-700);
+            border-bottom: 0.1rem solid var(--highlight-color-primary);
+        }
+    }
+
+    &.text {
+        background-color: transparent;
+        color: var(--text-color-800);
+
+        &:hover {
+            background-color: var(--bg-color-700);
+            color: var(--text-color-900);
+        }
+    }
+
+    transition: all 0.2s ease-in;
 }

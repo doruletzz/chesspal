@@ -1,17 +1,25 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { Chessboard } from 'react-chessboard';
 import { Chess, DEFAULT_POSITION, Move } from 'chess.js';
-import { Piece, Square } from 'react-chessboard/dist/chessboard/types';
+import {
+	BoardOrientation,
+	Piece,
+	Square,
+} from 'react-chessboard/dist/chessboard/types';
 
 export type ChessBoardComponentProps = {
+	isMultiplayer: boolean;
+	boardOrientation: BoardOrientation;
 	game: Chess;
-	setGame: Dispatch<SetStateAction<Chess>>;
+	setGame?: Dispatch<SetStateAction<Chess>>;
 	width: number;
 	fen: string;
-	setFen: Dispatch<SetStateAction<string>>;
+	setFen?: Dispatch<SetStateAction<string>>;
 };
 
 export const ChessBoardComponent = ({
+	isMultiplayer = false,
+	boardOrientation = 'white',
 	fen,
 	setFen,
 	game,
@@ -25,6 +33,14 @@ export const ChessBoardComponent = ({
 		targetSquare: Square,
 		piece: Piece
 	) => {
+		if (
+			!setGame ||
+			!setFen ||
+			(isMultiplayer &&
+				(game.turn() === 'b' ? 'black' : 'white') !== boardOrientation)
+		)
+			return false;
+
 		try {
 			const copy = Object.assign(game, Chess);
 			const move = copy.move({
@@ -46,6 +62,7 @@ export const ChessBoardComponent = ({
 		game && (
 			<div className='chess-board'>
 				<Chessboard
+					boardOrientation={boardOrientation}
 					position={fen}
 					boardWidth={width}
 					arePiecesDraggable

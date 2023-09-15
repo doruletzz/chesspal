@@ -3,10 +3,14 @@ import React, { MouseEvent, ReactNode } from 'react';
 import './CardComponent.scss';
 
 type CardComponentProps = {
+	rotate?: boolean;
 	children: ReactNode;
 };
 
-export const CardComponent = ({ children }: CardComponentProps) => {
+export const CardComponent = ({
+	rotate = true,
+	children,
+}: CardComponentProps) => {
 	const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
 		const rect = e.currentTarget.getBoundingClientRect();
 
@@ -22,6 +26,9 @@ export const CardComponent = ({ children }: CardComponentProps) => {
 
 		e.currentTarget.style.setProperty('--mouse-x', `${cursorPosition.x}px`);
 		e.currentTarget.style.setProperty('--mouse-y', `${cursorPosition.y}px`);
+
+		if (!rotate) return;
+
 		e.currentTarget.style.setProperty(
 			'--rotate-x',
 			`${rotateDegree.x * 5}deg`

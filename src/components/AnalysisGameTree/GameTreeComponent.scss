@@ -13,6 +13,7 @@
     .button {
         background-color: var(--bg-color-800);
         color: var(--text-color-800);
+        border: none;
 
         max-height: 2rem;
         padding: 0.5rem 0.5rem;
@@ -22,6 +23,7 @@
         &:hover,
         &.current{
             color: var(--text-color-900);
+            border: none;
             border-bottom: 0.1rem solid var(--highlight-color-primary);
         }
 

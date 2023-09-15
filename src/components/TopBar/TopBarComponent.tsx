@@ -2,6 +2,7 @@ import { faChessRook } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { ReactNode, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../../contexts/AuthContext';
 
 import './TopBarComponent.scss';
 
@@ -10,12 +11,24 @@ type NavItem = {
 	to: string;
 };
 
-type TopBarComponentProps = {
-	logo: ReactNode;
-	items: Array<NavItem>;
-};
+const loggedInNavItems = [
+	{ name: 'analysis', to: 'analysis' },
+	{ name: 'play', to: 'play' },
+	{ name: 'practice', to: 'practise' },
+	{ name: 'profile', to: 'profile' },
+];
 
-export const TopBarComponent = ({ items, logo }: TopBarComponentProps) => {
+const loggedOutNavItems = [
+	{ name: 'analysis', to: 'analysis' },
+	{ name: 'play', to: 'play' },
+	{ name: 'sign in', to: 'login' },
+];
+
+export const TopBarComponent = () => {
+	const {
+		state: { sessionId },
+	} = useAuthContext();
+
 	const navigate = useNavigate();
 	const location = useLocation();
 
@@ -25,23 +38,25 @@ export const TopBarComponent = ({ items, logo }: TopBarComponentProps) => {
 		<div className='topbar-container'>
 			<div className='logo' onClick={(e) => navigate('/')}>
 				<FontAwesomeIcon icon={faChessRook} />
-				{logo}
+				{'chesspal'}
 			</div>
 			<ul className='nav-items'>
-				{items.map((item) => (
-					<li
-						key={item.name}
-						id={item.name}
-						className={`nav-item ${
-							location.pathname.replace('/', '') === item.to
-								? 'active'
-								: ''
-						}`}
-						onClick={(e) => navigate(item.to)}
-					>
-						{item.name}
-					</li>
-				))}
+				{(sessionId ? loggedInNavItems : loggedOutNavItems).map(
+					(item) => (
+						<li
+							key={item.name}
+							id={item.name}
+							className={`nav-item ${
+								location.pathname.replace('/', '') === item.to
+									? 'active'
+									: ''
+							}`}
+							onClick={(e) => navigate(item.to)}
+						>
+							{item.name}
+						</li>
+					)
+				)}
 			</ul>
 		</div>
 	);

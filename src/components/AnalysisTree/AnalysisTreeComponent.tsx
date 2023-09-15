@@ -28,6 +28,7 @@ import WinLossDrawRatio from '../Statistics/WinLossDrawRatio';
 import Tooltip from '../Tooltip';
 import './AnalysisTreeComponent.scss';
 import { ImportPgnFormComponent } from './ImportPgnFormComponent';
+import { API_ROUTE } from '../../constants';
 
 type AnalysisTreeComponentProps = {
 	gameTree: GameTree;
@@ -55,7 +56,7 @@ export const AnalysisTreeComponent = ({
 	const [importPgn, setImportPgn] = useState<string>('');
 
 	useEffect(() => {
-		api.get('/stats', {
+		api.get(API_ROUTE.POSITION_STATS, {
 			params: {
 				src: DEFAULT_POSITION,
 				dest: fen,
